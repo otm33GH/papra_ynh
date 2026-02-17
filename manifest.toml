@@ -67,9 +67,12 @@ ram.runtime = "50M"
     choices = ["fr", "en"]
     default = "fr"
 
-    [install.admin]
+    [install.registration]
     # this is a generic question - ask strings are automatically handled by YunoHost's core
-    type = "user"
+    type = "boolean"
+    ask.en = "Allow registration?"
+    ask.fr = "Autoriser les inscriptions?"
+    default = true
 
     [install.doc_storage_driver]
     ask.en = "Storage driver"
@@ -77,13 +80,6 @@ ram.runtime = "50M"
     type = "select"
     choices = ["filesystem", "s3", "in-memory", "azure-blob"]
     default = "filesystem"
-    
-    [install.password]
-    # this is a generic question - ask strings are automatically handled by YunoHost's core
-    # Note that user-provided passwords questions are not automatically saved as setting
-    help.en = "Use the help field to add an information for the admin about this question."
-    help.fr = "Utilisez le champ aide pour ajouter une information à l'intention de l'administrateur à propos de cette question."
-    type = "password"
 
 [resources]
     # See the packaging documentation for the full set
