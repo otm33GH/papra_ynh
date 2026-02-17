@@ -40,6 +40,7 @@ type = "number"
 optional = true
 bind = "SMTP_PORT:__INSTALL_DIR__/.env"
 
+[main.instance]
 [main.instance.registration]
     type = "boolean"
     ask.en = "Allow registration?"
@@ -68,35 +69,45 @@ bind = "SMTP_PORT:__INSTALL_DIR__/.env"
     default = 30
     bind = "DOCUMENTS_DELETED_DOCUMENTS_RETENTION_DAYS:__INSTALL_DIR__/.env"
 
-#[main.ai]
-#name.en = "AI models"
-#name.fr = "Modèles AI"
+[main.storage]
 
-#[main.ai.baserow_ollama_host]
-#ask.en = "Server address"
-#ask.fr = "Adresse du serveur"
-#type = "url"
-#bind = "BASEROW_OLLAMA_HOST:__INSTALL_DIR__/__APP__/.env"
+    [main.storage.doc_storage_driver]
+    ask.en = "Storage driver"
+    ask.fr = "Storage driver"
+    type = "select"
+    choices = ["filesystem", "s3", "in-memory", "azure-blob"]
 
-#[main.ai.baserow_ollama_models]
-#ask.en = "List of models"
-#ask.fr = "Liste des modèles"
-#help.en = "List of available models, separated by commas"
-#help.fr = "Liste des modèles disponibles, séparés par des virgules"
-#type = "string"
-#bind = "BASEROW_OLLAMA_MODELS:__INSTALL_DIR__/__APP__/.env"
+    [main.storage.aws_endpoint]
+    ask.en = "S3 endpoint"
+    ask.fr = "S3 endpoint"
+    bind = "DOCUMENT_STORAGE_S3_ENDPOINT:__INSTALL_DIR__/.env"
+    
+    [main.storage.aws_bucket_name]
+    ask.en = "Bucket name"
+    ask.fr = "Nom du bucket"
+    bind = "DOCUMENT_STORAGE_S3_BUCKET_NAME:__INSTALL_DIR__/.env"
 
-[main.limit_size]
+    [main.storage.aws_key_id]
+    ask.en = "S3 key id"
+    ask.fr = "S3 key id"
+    bind = "DOCUMENT_STORAGE_S3_ACCESS_KEY_ID:__INSTALL_DIR__/.env"
+
+    [main.storage.aws_secret_key]
+    ask.en = "S3 secret key"
+    ask.fr = "S3 secret key"
+    bind = "DOCUMENT_STORAGE_S3_SECRET_ACCESS_KEY:__INSTALL_DIR__/.env"
+
+[main.uploads]
 name.en = "Upload limit size"
 name.fr = "Téléchargement de fichiers"
 
-[main.limit_size.warning]
-ask.fr = "Taille limite pour l'import de fichiers dans Baserow (paramètre reporté dans la configuration NGINX du domaine)."
+[main.uploads.warning]
+ask.fr = "Taille limite pour l'import de fichiers (paramètre reporté dans la configuration NGINX du domaine)."
 ask.en = "Baserow size limit file upload"
 type = "alert"
 style = "info"
 
-[main.limit_size.upload_max_size]
+[main.uploads.max_upload_size]
 ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
 ask.en = "Size limit file upload (Mb)"
 type = "number"
@@ -104,36 +115,4 @@ bind = "null"
 
 
 
-# [main.storage]
-# name.en = "AWS S3 bucket"
-# name.fr = "AWS S3 bucket"
-
-# [main.storage.access_key_id]
-# ask = "AWS_ACCESS_KEY_ID"
-# type = "string"
-# bind = "AWS_ACCESS_KEY_ID:__INSTALL_DIR__/__APP__/.env"
-
-# [main.storage.secret_access_key]
-# ask = "AWS_SECRET_ACCESS_KEY"
-# type = "password"
-# bind = "AWS_SECRET_ACCESS_KEY:__INSTALL_DIR__/__APP__/.env"
-
-# [main.storage.AWS_STORAGE_BUCKET_NAME]
-# ask = "AWS_STORAGE_BUCKET_NAME"
-# type = "string"
-# bind = "AWS_STORAGE_BUCKET_NAME:__INSTALL_DIR__/__APP__/.env"
-
-# [main.storage.AWS_S3_REGION_NAME]
-# ask = "AWS_S3_REGION_NAME"
-# type = "string"
-# bind = "AWS_S3_REGION_NAME:__INSTALL_DIR__/__APP__/.env"
-
-# [main.storage.AWS_S3_ENDPOINT_URL]
-# ask = "AWS_S3_ENDPOINT_URL"
-# type = "url"
-# bind = "AWS_S3_ENDPOINT_URL:__INSTALL_DIR__/__APP__/.env"
-
-# [main.storage.AWS_S3_CUSTOM_DOMAIN]
-# ask = "AWS_S3_CUSTOM_DOMAIN"
-# type = "url"
-# bind = "AWS_S3_CUSTOM_DOMAIN:__INSTALL_DIR__/__APP__/.env"
+"
