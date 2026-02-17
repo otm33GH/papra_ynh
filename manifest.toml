@@ -71,6 +71,13 @@ ram.runtime = "50M"
     # this is a generic question - ask strings are automatically handled by YunoHost's core
     type = "user"
 
+    [install.doc_storage_driver]
+    ask.en = "Storage driver"
+    ask.fr = "Storage driver"
+    type = "select"
+    choices = ["filesystem", "s3", "in-memory", "azure-blob"]
+    default = "filesystem"
+    
     [install.password]
     # this is a generic question - ask strings are automatically handled by YunoHost's core
     # Note that user-provided passwords questions are not automatically saved as setting
