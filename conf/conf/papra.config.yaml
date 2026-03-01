@@ -1,0 +1,5 @@
+server:
+  servePublicDir: true
+  baseUrl: https://__DOMAIN____PATH__
+auth:
+  secret: __AUTH_SECRET__
