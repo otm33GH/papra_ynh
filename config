@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+#=================================================
+# RETRIEVE ARGUMENTS
+#=================================================
+BACKEND_ENV="${install_dir}/.env"
+
+get__max_upload_size() {
+ynh_app_setting_get --key=max_upload_size
+}
+set__max_upload_size() {
+    max_up=$((max_upload_size * 1024 * 1024))
+    ynh_replace --match='client_max_body_size [^"]*' --replace="client_max_body_size  ${max_upload_size}M  ;" --file="/etc/nginx/conf.d/$domain.d/$app.conf"
+    ynh_replace --match='DOCUMENT_STORAGE_MAX_UPLOAD_SIZE=[^"]*' --replace="DOCUMENT_STORAGE_MAX_UPLOAD_SIZE=$max_up" --file="$BACKEND_ENV"
+    ynh_store_file_checksum "/etc/nginx/conf.d/$domain.d/$app.conf"
+    ynh_app_setting_set --key=max_upload_size --value="$max_upload_size"
+    ynh_print_info "The nginx config has been edited"
+}
+
+#=================================================
+ynh_app_config_run "$1"

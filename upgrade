@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Stopping $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="stop"
+
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Upgrading source files..."
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".env apps/papra-server/db.sqlite"
+
+pushd "$install_dir"
+ynh_exec_as_app pnpm install 
+ynh_exec_as_app pnpm -r build
+ynh_exec_as_app mkdir -p apps/papra-server/public
+ynh_exec_as_app cp -r apps/papra-client/dist/* apps/papra-server/public/
+pnpm store prune
+popd
+
+#=================================================
+# UPDATE A CONFIG FILE
+#=================================================
+
+ynh_config_add --template="papra.config.yaml" --destination="$install_dir/apps/papra-server/papra.config.yaml"
+
+chown -R "$app:$app" "$install_dir"
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Upgrading system configurations related to $app..."
+
+
+ynh_config_add_nginx
+
+ynh_config_add_systemd
+
+yunohost service add "$app" --description="Papra Docs" --log="/var/log/$app/$app.log"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="start"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Upgrade of $app completed"

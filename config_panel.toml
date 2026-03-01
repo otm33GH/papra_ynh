@@ -1,0 +1,148 @@
+version = "1.0"
+
+[main]
+name.en = "Configuration panel"
+name.fr = "Panneau de configuration"
+services = ["__APP__", "nginx"]
+
+
+[main.instance]
+name.en = "Global settings"
+name.fr = "Paramètres Globaux"
+
+[main.instance.registration]
+    type = "boolean"
+    ask.en = "Allow registration?"
+    ask.fr = "Autoriser les inscriptions?"
+    default = true
+    bind = "AUTH_IS_REGISTRATION_ENABLED:__INSTALL_DIR__/.env"
+
+[main.instance.password_reset]
+    type = "boolean"
+    ask.en = "Allow password reset?"
+    ask.fr = "Autoriser le changement de mot de passe?"
+    default = true
+    bind = "AUTH_IS_PASSWORD_RESET_ENABLED:__INSTALL_DIR__/.env"
+
+[main.instance.email_verification]
+    type = "boolean"
+    ask.en = "Whether email verification is required"
+    ask.fr = "Vérification obligatoire de l'adresse de courriel"
+    default = true
+    bind = "AUTH_IS_EMAIL_VERIFICATION_REQUIRED:__INSTALL_DIR__/.env"
+    
+[main.instance.retention]
+    type = "number"
+    ask.en = "The retention period in days for deleted documents."
+    ask.fr = "Durée de rétention des documents effacés (en jours)"
+    default = 30
+    bind = "DOCUMENTS_DELETED_DOCUMENTS_RETENTION_DAYS:__INSTALL_DIR__/.env"
+
+[main.uploads]
+name.en = "Upload limit size"
+name.fr = "Téléchargement de fichiers"
+
+[main.uploads.max_upload_size]
+ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
+ask.en = "Size limit file upload (Mb)"
+type = "number"
+bind = "null"
+
+[main.smtp]
+name.en = "SMTP configuration"
+name.fr = "Paramètres SMTP"
+
+[main.smtp.smtp_user]
+ask.en = "The SMTP user email/id"
+ask.fr = "Courriel / id d'utilisateur SMTP"
+type = "string"
+bind = "SMTP_USER:__INSTALL_DIR__/.env"
+
+[main.smtp.smtp_password]
+ask.en = "user password or application token"
+ask.fr = "Mot de passe ou jeton d’application SMTP."
+type = "password"
+bind = "SMTP_PASSWORD:__INSTALL_DIR__/.env"
+
+[main.smtp.smtp_host]
+ask.en = "SMTP host"
+ask.fr = "Nom d’hôte du serveur SMTP"
+type = "string"
+bind = "SMTP_HOST:__INSTALL_DIR__/.env"
+
+[main.smtp.smtp_port]
+ask.en = "SMTP port"
+ask.fr = "Port du serveur SMTP"
+type = "number"
+optional = true
+bind = "SMTP_PORT:__INSTALL_DIR__/.env"
+
+
+[main.storage]
+name.en = "Storage"
+name.fr = "Stockage"
+    [main.storage.doc_storage_driver]
+    ask.en = "Storage driver"
+    ask.fr = "Storage driver"
+    type = "select"
+    choices = ["filesystem", "s3", "in-memory", "azure-blob"]
+    bind = "DOCUMENT_STORAGE_DRIVER:__INSTALL_DIR__/.env"
+
+[main.storage_s3]
+name.en = "S3 storage"
+name.fr = "Stockage S3"
+
+    [main.storage_s3.aws_endpoint]
+    ask.en = "S3 endpoint"
+    ask.fr = "S3 endpoint"
+    bind = "DOCUMENT_STORAGE_S3_ENDPOINT:__INSTALL_DIR__/.env"
+
+    [main.storage_s3.aws_region]
+    ask.en = "S3 region"
+    ask.fr = "S3 region"
+    bind = "DOCUMENT_STORAGE_S3_REGION:__INSTALL_DIR__/.env"
+    
+    [main.storage_s3.aws_bucket_name]
+    ask.en = "Bucket name"
+    ask.fr = "Nom du bucket"
+    bind = "DOCUMENT_STORAGE_S3_BUCKET_NAME:__INSTALL_DIR__/.env"
+
+    [main.storage_s3.aws_key_id]
+    ask.en = "S3 key id"
+    ask.fr = "S3 key id"
+    bind = "DOCUMENT_STORAGE_S3_ACCESS_KEY_ID:__INSTALL_DIR__/.env"
+
+    [main.storage_s3.aws_secret_key]
+    ask.en = "S3 secret key"
+    ask.fr = "S3 secret key"
+    bind = "DOCUMENT_STORAGE_S3_SECRET_ACCESS_KEY:__INSTALL_DIR__/.env"
+
+
+[main.storage_azure]
+name.en = "Azure storage"
+name.fr = "Stockage Azure"
+
+    [main.storage_azure.connection_string]
+    ask.en = "Azure blob connection string"
+    ask.fr = "Azure blob connection string"
+    bind = "DOCUMENT_STORAGE_AZURE_BLOB_CONNECTION_STRING:__INSTALL_DIR__/.env"
+
+    [main.storage_azure.account_name]
+    ask.en = "Azure Blob Storage account name"
+    ask.fr = "Azure Blob Storage account name"
+    bind = "DOCUMENT_STORAGE_AZURE_BLOB_ACCOUNT_NAME:__INSTALL_DIR__/.env"
+    
+    [main.storage_azure.account_key]
+    ask.en = "Azure Blob Storage account key"
+    ask.fr = "Azure Blob Storage account key"
+    bind = "DOCUMENT_STORAGE_AZURE_BLOB_ACCOUNT_KEY:__INSTALL_DIR__/.env"
+
+    [main.storage_azure.container_name]
+    ask.en = "Azure Blob Storage container name"
+    ask.fr = "Azure Blob Storage container name"
+    bind = "DOCUMENT_STORAGE_AZURE_BLOB_CONTAINER_NAME:__INSTALL_DIR__/.env"
+
+
+
+
+
