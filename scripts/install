@@ -61,6 +61,9 @@ ynh_exec_as_app pnpm -r build
 ynh_exec_as_app mkdir -p apps/papra-server/public
 ynh_exec_as_app cp -r apps/papra-client/dist/* apps/papra-server/public/
 pnpm store prune
+ynh_replace --match='OWLRELAY_API_BASE_URL = "https://api.owlrelay.email"' \
+    --replace='OWLRELAY_API_BASE_URL = process.env.OWLRELAY_API_BASE_URL ?? "https://api.owlrelay.email"' \
+    --file=$install_dir/node_modules/@owlrelay/api-sdk/dist/index.mjs
 popd
 chown -R $app:$app $install_dir
 
